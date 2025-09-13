@@ -1,4 +1,4 @@
-package com.simlegate.game;
+package com.smilegate.game;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
