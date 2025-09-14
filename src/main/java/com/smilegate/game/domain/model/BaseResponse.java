@@ -9,9 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class BaseResponse<T> {
-    private String message;
     private int status;
     private T data;
+    private String message;
 
     public static <T> BaseResponse<T> success(T data) {
         return BaseResponse.<T>builder()
