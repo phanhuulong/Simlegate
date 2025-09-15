@@ -36,4 +36,11 @@ public class BaseResponse<T> {
                 .data(null)
                 .build();
     }
+    public static <T> BaseResponse<T> error(T data,int status, String message) {
+        return BaseResponse.<T>builder()
+                .message(message)
+                .status(status)
+                .data(data)
+                .build();
+    }
 }

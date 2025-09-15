@@ -8,11 +8,11 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class MinioResponse {
-    private String url;
+    private String fileName;
 
-    public static MinioResponse mapToResponse(String url) {
+    public static MinioResponse mapToResponse(String fileName) {
         return MinioResponse.builder()
-                .url(url)
+                .fileName(fileName)
                 .build();
     }
 }

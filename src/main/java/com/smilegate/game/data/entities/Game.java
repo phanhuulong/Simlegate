@@ -8,8 +8,7 @@ import java.time.Instant;
 import java.util.*;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,13 +29,10 @@ public class Game {
     @JoinTable(name = "game_category", joinColumns = @JoinColumn(name = "game_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     @Builder.Default
     private Set<Category> categories = new HashSet<>();
+    @Column(name = "image_url", nullable = true)
+    private String imageUrl;
 
-    @ElementCollection
-    @CollectionTable(name = "game_images", joinColumns = @JoinColumn(name = "game_id"))
-    @Builder.Default
-    private List<String> images = new ArrayList<>();
-
-    @Column(name = "created_by", nullable = false)
+    @Column(name = "created_by", nullable = true)
     private String createBy;
     private Instant createdAt;
     @Column(name = "updated_by", nullable = true)

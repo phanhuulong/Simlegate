@@ -23,10 +23,23 @@ public class Language {
     @Column(name = "is_default")
     private boolean isDefault;
     @Column(name = "created_at")
+
     private Instant createdAt;
+    private Instant updatedAt;
+    private Instant deletedAt;
 
     @PrePersist
     protected void prePersist() {
-        if (this.createdAt == null) createdAt = new Date().toInstant();
+        if (this.createdAt == null) createdAt = new Date().toInstant() ;
+    }
+
+    @PreUpdate
+    protected void preUpdate() {
+        this.updatedAt = new Date().toInstant();
+    }
+
+    @PreRemove
+    protected void preRemove() {
+        this.deletedAt = new Date().toInstant();
     }
 }

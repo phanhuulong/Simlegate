@@ -1,29 +1,44 @@
 package com.smilegate.game.domain.controller;
 
-import com.smilegate.game.domain.model.BaseResponse;
-import com.smilegate.game.domain.model.CategoryRequest;
-import com.smilegate.game.domain.model.CategoryResponse;
+import com.smilegate.game.domain.model.*;
 import com.smilegate.game.domain.service.CategoryService;
-import com.smilegate.game.utils.MessageService;
 import lombok.AllArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+
+import java.util.List;
+import java.util.UUID;
 
 @RequestMapping("/category")
 @RestController
 @AllArgsConstructor
 public class CategoryController {
     private final CategoryService categoryService;
-    private final MessageService messageService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BaseResponse<CategoryResponse>> getById(@PathVariable UUID id) {
+        return ResponseEntity.ok(categoryService.getById(id));
+    }
 
     @PostMapping
-    public ResponseEntity<BaseResponse<CategoryResponse>> save(@RequestBody CategoryRequest category) {
+    public ResponseEntity<BaseResponse<CategoryResponse>> save(@Valid @RequestBody CategoryRequest category) {
         return ResponseEntity.ok(categoryService.save(category));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<BasePagingResponse<CategoryResponse>> searchCategory(@ParameterObject @ModelAttribute BasePagingRequest request) {
+        return ResponseEntity.ok(categoryService.searchByNameAndCodeAndDeletedAtIsNull(request.getPageNumber(), request.getPageSize(), request.getKeyword()));
+    }
 
+    @DeleteMapping("/delete-many")
+    public ResponseEntity<BaseResponse<String>> softDeleteByIds(@RequestBody List<UUID> ids) {
+        return ResponseEntity.ok(categoryService.softDeleteByIds(ids));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BaseResponse<CategoryResponse>> update(@PathVariable UUID id, @Valid @RequestBody CategoryRequest category) {
+        return ResponseEntity.ok(categoryService.update(id, category));
+    }
 }

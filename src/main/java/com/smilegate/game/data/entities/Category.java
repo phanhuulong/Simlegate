@@ -31,11 +31,17 @@ public class Category {
     private Set<Game> games = new HashSet<>();
 
     private Instant createdAt;
+    private Instant updatedAt;
     private Instant deletedAt;
 
     @PrePersist
     protected void prePersist() {
         if (this.createdAt == null) createdAt = new Date().toInstant() ;
+    }
+
+    @PreUpdate
+    protected void preUpdate() {
+        this.updatedAt = new Date().toInstant();
     }
 
     @PreRemove
